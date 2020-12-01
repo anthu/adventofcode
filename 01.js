@@ -4,8 +4,8 @@ const targetValue = 2020
 const today = 1
 
 async  function main() {
-    var f = await util.getInput(today);
-    const lines = f
+    var input = await util.getInput(today);
+    const lines = input
         .split('\n')
         .map(Number)
             
