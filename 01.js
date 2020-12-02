@@ -30,7 +30,7 @@ function part1(lines) {
 }
 
 function part2(lines) {
-    for(var i=0; i<lines.length - 2; i++) {
+    for(var i = 0; i<lines.length - 2; i++) {
         for(var j = i + 1; j < lines.length - 1; j++) {
             for(var k = j + 1; k < lines.length; k++) {
                 if(targetValue === lines[i] + lines[j] + lines[k]) {

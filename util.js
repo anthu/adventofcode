@@ -1,7 +1,18 @@
 const https = require('https')
 var config = require('./config.json');
+const readline = require('readline');
+const fs = require('fs');
 
 const year = 2020
+
+var getInputFromFile = day => {
+    if (day < 10) {
+        day = "0" + day
+    }
+
+    const data = fs.readFileSync(day + '.in', 'UTF-8');
+    return data
+}
 
 var getInput = (day) => {
 
@@ -57,5 +68,6 @@ var sendAnswer = (day, level, answer) => {
 
 module.exports = {
     getInput,
-    sendAnswer
+    sendAnswer,
+    getInputFromFile
 }
