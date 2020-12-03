@@ -4,17 +4,14 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        days: ['01', '02', '03']
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - run: node ${{ matrix.days }}.js
+    - name: Set current date of month as env variable
+      run: echo "DAY_OF_MONTH=$(date +'%d')" >> $GITHUB_ENV
+    - name: Running todays solution
+      run: node ${DAY_OF_MONTH}.js
