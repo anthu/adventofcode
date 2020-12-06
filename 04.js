@@ -16,7 +16,6 @@ function solve(passwords) {
     var part1=0,part2=0
 
     passwords.forEach( password => {
-        // var fields = new Map()
         var fields = new Map(
             password
                 .replaceAll("\n", " ")
@@ -24,10 +23,9 @@ function solve(passwords) {
                 .map(obj => obj.split(":"))
         )
             
-        var missingFields = requiredFields
-            .reduce((acc,required) => acc + !fields.has(required), 0)
+        var isValid = requiredFields.every(required => fields.has(required))
         
-        if (!missingFields) {
+        if (isValid) {
             // Enough for Part 1
             part1++
 

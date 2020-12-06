@@ -1,9 +1,6 @@
 const util = require('./util.js')
 
 const TODAY = 6
-const ROW_MAX = 127, SEAT_MAX = 7
-const BIN_DIR_RIGHT = ["L", "F"]
-
 
 async  function main() {
     const groups = util.getInputFromFile(TODAY)
@@ -27,7 +24,7 @@ function part2(groups) {
                 answer => answers.set(answer, (answers.get(answer) + 1) || 1)
             )
 
-        return agg + [...answers].reduce((agg, [k, v]) => agg + (v === groupSize), 0)
+        return agg + [...answers].reduce((agg, [, v]) => agg + (v === groupSize), 0)
     }, 0)
 }
 
