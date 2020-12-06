@@ -9,6 +9,5 @@ var getInputFromFile = day => {
     return data
 }
 
-module.exports = {
-    getInputFromFile
-}
+module.exports.getInputFromFile = getInputFromFile;
+module.exports.i = getInputFromFile;
