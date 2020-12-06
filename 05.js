@@ -18,7 +18,7 @@ const getSeatId = (row, seat) => row * 8 + seat
 
 const binWalk = (str, high, low=0) => {
     str.split('').forEach(r => {
-        (BIN_DIR_RIGHT.includes(r)) 
+        BIN_DIR_RIGHT.includes(r)
             ? high = low + Math.floor((high - low) / 2) 
             : low = low + Math.ceil((high - low) / 2)
     })
