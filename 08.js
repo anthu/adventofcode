@@ -1,8 +1,7 @@
 const util = require('./util.js')
 
 const TODAY = 8
-const REGEXP_BAG = /[0-9] [a-z]+ [a-z]+ bag(s)?/g;
-const INITIAL_BAG = "shiny gold"
+
 async  function main() {
     const ops = util.getInputFromFile(TODAY)
         .split('\n')

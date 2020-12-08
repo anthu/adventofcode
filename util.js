@@ -6,7 +6,7 @@ var getInputFromFile = day => {
     }
 
     const data = fs.readFileSync(day + '.in', 'UTF-8');
-    return data
+    return data.trim()
 }
 
 module.exports.getInputFromFile = getInputFromFile;
