@@ -13,7 +13,6 @@ function main() {
 
 
 function part1(ops) {
-    console.log(ops)
     ops = ops.sort((a,b)=>a-b)
     let i = 0, e = 0
 
