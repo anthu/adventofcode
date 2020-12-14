@@ -1,7 +1,7 @@
-const { SSL_OP_SSLEAY_080_CLIENT_DH_BUG } = require('constants')
 const util = require('./util.js')
 
 const TODAY = 14
+const MASK = 'mask'
 
 function main() {
     const ops = util.getInputFromFile(TODAY)
@@ -13,72 +13,67 @@ function main() {
 
 
 function part1(ops) {
-    let mask = ''
-    let abs=new Map()
+    let maskArr = [], abs=new Map()
+
     for (op of ops) {
-        if (op[0] === 'mask') {
-            mask = op[1]
+        if (op[0] === MASK) {
+            maskArr = op[1].split('')
         }
         else {
-            let memory = op[0].match(/[0-9]+/)[0]
-            let value = parseInt(op[1])
-            let ab = value.toString(2).padStart(36, '0')
-            let splittedAb = ab.split('')
-            let splittedMask = mask.split('')
-            let res = []
-            for(let i = 0; i<36;i++) {
-                if(splittedMask[i] === 'X') {
-                    res.push(splittedAb[i])
-                } else {
-                    res.push(splittedMask[i])
-                }
-            }
-            abs.set(memory, parseInt(res.join(''),2))
+            let targetAddress = op[0].match(/[0-9]+/)[0]
+            
+            let memValueBinArr = parseInt(op[1])
+                .toString(2)                        // Convert to binary
+                .padStart(36, '0')                  // Pad string with zeroes
+                .split('')                          // Convert to array
+
+            let res = [...maskArr]
+                .map((e, index) => e === 'X' ? memValueBinArr[index] : e) // If 'X' then replace else keep Mask value
+            
+            abs.set(targetAddress, parseInt(res.join(''), 2)) // Overwrite Memory
         }
     }
-    let abs2 = 0
-    abs.forEach(e => abs2 += e)
-    return abs2
+
+    
+    return [...abs.values()].reduce((a, e) => a+=e, 0) // Sum up all memory values
 }
 
 function part2(ops) {
-    let mask = ''
-    let abs=new Map()
+    let maskArr = []
+    const abs=new Map()
     for (op of ops) {
-        if (op[0] === 'mask') {
-            mask = op[1]
+        if (op[0] === MASK) {
+            maskArr = op[1].split('')
         }
         else {
-            let memory = parseInt(op[0].match(/[0-9]+/)[0])
-            let ab =  memory.toString(2).padStart(36, '0')
-            let value = parseInt(op[1])
-            let splittedAb = ab.split('')
-            let splittedMask = mask.split('')
-            let res = []
+            const memory = parseInt(op[0]
+                .match(/[0-9]+/)[0])
+                .toString(2)
+                .padStart(36, '0')
+                .split('')
+            const value = parseInt(op[1])
             let indices = []
-            for(let i = 0; i<36;i++) {
-                if(splittedMask[i] === 'X') {
-                    res.push('X')
-                    indices.push(i)
-                } else if(splittedMask[i] === '0') {
-                    res.push(splittedAb[i])
-                } else {
-                    res.push('1')
+            const res = [...maskArr].map((e, index) => {
+                if (e === 'X') {
+                    indices.push(index)
+                } else if(e === '0') {
+                    return memory[index]
                 }
-            }
-            for(let j = 0; j < 2**indices.length; j++) {
-                let bin = j.toString(2).padStart(indices.length, '0').split('')
+                return e
+            })
+
+            for(j = 0; j < 2**indices.length; j++) {
+                const bin = j.toString(2).padStart(indices.length, '0').split('')
                 let res_tmp = [...res]
-                for (let k = 0; k < bin.length; k++) {
-                    res_tmp[indices[k]] = bin[k]
-                }
+                bin.forEach((e, i) => {
+                    res_tmp[indices[i]] = e
+                })
                 abs.set(parseInt(res_tmp.join(''),2), value)
             }
         }
     }
-    let abs2 = 0
-    abs.forEach(e => abs2 += e)
-    return abs2
+
+    return [...abs.values()].reduce((a,e) => a += e)
 }
 
 
